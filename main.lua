@@ -36,3 +36,7 @@ function love.update(dt)
 
 	intro:update()
 end
+
+function love.resize()
+	canvas = love.graphics.newCanvas()
+end

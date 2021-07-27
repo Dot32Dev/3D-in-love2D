@@ -14,6 +14,9 @@ mesh:setTexture(texture)
 local canvas = love.graphics.newCanvas()
 
 local rotation = 0.0
+local rotationV = 0
+local zoom = 400.0
+local zoomV = 0
 
 function love.draw()
 	love.graphics.setCanvas({canvas, depth=true})
@@ -23,7 +26,7 @@ function love.draw()
 	
 	shader:send("rotation", rotation)
 	shader:send("screenSize", {love.graphics.getWidth()*love.graphics.getDPIScale(), love.graphics.getHeight()*love.graphics.getDPIScale()})
-	shader:send("zoom", 700)
+	shader:send("zoom", zoom)
 	love.graphics.draw(mesh)
 
 	love.graphics.setShader()
@@ -34,11 +37,21 @@ function love.draw()
 end
 
 function love.update(dt)
-	rotation = rotation + dt
+	-- rotation = rotation + dt
+	zoom = zoom + zoomV
+	zoomV = zoomV * 0.5
+
+	rotation = rotation + rotationV
+	rotationV = rotationV * 0.5
 
 	intro:update()
 end
 
-function love.resize()
+function love.resize(w, h)
 	canvas = love.graphics.newCanvas()
+end
+
+function love.wheelmoved(x, y)
+	zoomV = zoomV + y*3
+	rotationV = rotationV - x/math.pi*0.15
 end

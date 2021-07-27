@@ -22,6 +22,8 @@ function love.draw()
 	love.graphics.clear()	
 	
 	shader:send("rotation", rotation)
+	shader:send("screenSize", {love.graphics.getWidth()*love.graphics.getDPIScale(), love.graphics.getHeight()*love.graphics.getDPIScale()})
+	shader:send("zoom", 700)
 	love.graphics.draw(mesh)
 
 	love.graphics.setShader()
